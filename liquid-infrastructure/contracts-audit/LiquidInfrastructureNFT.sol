@@ -133,6 +133,7 @@ contract LiquidInfrastructureNFT is ERC721, OwnableApprovableERC721 {
      * @notice This function is access controlled, only the owner or an approved msg.sender may call this function
      */
     function withdrawBalances(address[] calldata erc20s) public virtual {
+        // @todo @audit use the modifier onlyOwnerOrApproved(AccountId) instead of the require
         require(
             _isApprovedOrOwner(_msgSender(), AccountId),
             "caller is not the owner of the Account token and is not approved either"
@@ -154,6 +155,7 @@ contract LiquidInfrastructureNFT is ERC721, OwnableApprovableERC721 {
         address[] calldata erc20s,
         address destination
     ) public virtual {
+        // @todo @audit use the modifier onlyOwnerOrApproved(AccountId) instead of the require
         require(
             _isApprovedOrOwner(_msgSender(), AccountId),
             "caller is not the owner of the Account token and is not approved either"
@@ -176,6 +178,7 @@ contract LiquidInfrastructureNFT is ERC721, OwnableApprovableERC721 {
             address erc20 = erc20s[i];
             uint256 balance = IERC20(erc20).balanceOf(address(this));
             if (balance > 0) {
+                // @todo @audit use safeTransfer
                 bool result = IERC20(erc20).transfer(destination, balance);
                 require(result, "unsuccessful withdrawal");
                 amounts[i] = balance;

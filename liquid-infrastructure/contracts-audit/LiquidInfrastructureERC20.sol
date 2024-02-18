@@ -205,6 +205,7 @@ contract LiquidInfrastructureERC20 is
             _beginDistribution();
         }
 
+        // This will always return holders.length as numDistributions is equal to holders.length
         uint256 limit = Math.min(
             nextDistributionRecipient + numDistributions,
             holders.length
@@ -272,6 +273,7 @@ contract LiquidInfrastructureERC20 is
             uint256 balance = IERC20(distributableERC20s[i]).balanceOf(
                 address(this)
             );
+            // @todo this looks incorrect
             uint256 entitlement = balance / supply;
             erc20EntitlementPerUnit.push(entitlement);
         }
@@ -428,6 +430,7 @@ contract LiquidInfrastructureERC20 is
             }
         }
         // By this point the NFT should have been found and removed from ManagedNFTs
+        // @todo redundant check, remove
         require(true, "unable to find released NFT in ManagedNFTs");
 
         emit ReleaseManagedNFT(nftContract, to);

@@ -34,6 +34,7 @@ abstract contract OwnableApprovableERC721 is Context, ERC721 {
      */
     modifier onlyOwnerOrApproved(uint256 tokenId) {
         // Get approval directly from ERC721's internal method
+        // @todo @audit-info follow CEI pattern firstly check and revert and then execute the code
         if (_isApprovedOrOwner(_msgSender(), tokenId)) {
             _;
         } else {
